@@ -1,37 +1,50 @@
-// Function CreateProfileCard.js 
-// To create a reusable profile card for all users
- 
+/**
+ * Creates a reusable profile card for a user.
+ * @param {Object} user - User data from JSON
+ * @param {boolean} isCurrentUser - Whether this is the current user
+ * @returns {HTMLElement} The completed profile card
+ */
+
 export const CreateProfileCard = function(user, isCurrentUser = false) {
 
-// Find the profile image and add the user's image
-const image = profileCard.querySelector("#profile_image");
-image.src = user.profile_image_url;
-image.alt = user.name;
+    // Copy the profile template
+    const template = document.getElementById("profile-template");
+    const profileCard = template.content.firstElementChild.cloneNode(true);
 
-// Add the name and username
-profileCard.querySelector("#profile_name").textContent = user.name;
-profileCard.querySelector("#profile_username").textContent = user.screen_name;
+    // Find the profile image and add the user's image
+    const image = profileCard.querySelector("#profile_image");
 
- // Add the user's description
-  profileCard.querySelector("#profile_description").textContent = user.description;
+    image.src = user.profile_image_url.replace(
+        "/assets/", "../assets/"
+    );
+    image.alt = user.name;
 
-// for the profile date
-const joinedDate = new Date(user.created);
+    // Add the name and username
+    profileCard.querySelector("#profile_name").textContent = user.name;
+    profileCard.querySelector("#profile_username").textContent =
+        user.screen_name;
 
- profileCard.querySelector("#profile-joined").textContent =
-    " Joined " + joinedDate.toLocaleString();
+    // Add the user's description
+    profileCard.querySelector("#profile_description").textContent =
+        user.description;
 
-  // the following and followers count
- profileCard.querySelector("#profile_following").textContent =
-     user.following_count + "Following";
+    // Add the profile date
+    const joinedDate = new Date(user.created);
+
+    profileCard.querySelector("#profile-joined").textContent =
+        "Joined " + joinedDate.toLocaleDateString();
+
+    // Add following and followers counts
+    profileCard.querySelector("#profile_following").textContent =
+        user.friends_count + " Following";
 
     profileCard.querySelector("#profile_followers").textContent =
-        user.followers_count + "Followers";
+        user.followers_count + " Followers";
 
-  // the Edit Profile button for only Kevin's profile
+    // Show Edit Profile button only for the current user
     if (!isCurrentUser) {
         profileCard.querySelector("#edit-profile").remove();
-  }
-  // Return profile card
+    }
+
     return profileCard;
 };
