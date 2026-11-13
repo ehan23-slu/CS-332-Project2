@@ -45,7 +45,7 @@ export function createSlime(slimeData) {
     header.className = "d-flex align-items-center gap-2 mb-2";
 
     const avatar = document.createElement("img");
-    avatar.className = "rounded-circle flex-shrink-0 object-fit-cover";
+    avatar.className = "img-thumbnail rounded-2 flex-shrink-0 object-fit-cover";
     // Resolve from js/slime.js so assets work with root or skeleton HTML.
     const imagePath = user.profile_image_url.replace(/^\//, "");
     avatar.src = new URL("../starter-code/" + imagePath, import.meta.url).href;
@@ -83,11 +83,13 @@ export function createSlime(slimeData) {
         replies.href = "./slime.html";
     }
     replies.textContent = replyLabel;
-    stats.append(
-        replies,
-        `${slime.reslime_count} reslime(s)`,
-        `${slime.favorite_count} favorite(s)`
-    );
+    const reslimes = document.createElement("span");
+    reslimes.textContent = `${slime.reslime_count} reslime(s)`;
+
+    const favorites = document.createElement("span");
+    favorites.textContent = `${slime.favorite_count} favorite(s)`;
+
+    stats.append(replies, reslimes, favorites);
 
     body.append(header, message, stats);
     return card;
