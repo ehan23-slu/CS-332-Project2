@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // get the profile forom the url
     const urlParams = new URLSearchParams(window.location.search);
-    const username = urlParams.get("user") || "kevinaangstadt";
+    const username = urlParams.get("user") || "ed";
 
     async function loadSlimes() {
         try {
@@ -22,11 +22,15 @@ document.addEventListener("DOMContentLoaded", () => {
             slimesContainer.innerHTML = "";
 
             data.forEach(slime => {
-                // create slime from json data using createSlime()
-                const card = createSlime(slime);
+                // check if slime is a reply or not
+                if (!slime.in_reply_to_status_id_str) {
+                    // create slime from json data using createSlime()
+                    const card = createSlime(slime);
+    
+                    // add to the container
+                    slimesContainer.appendChild(card);
 
-                // add to the container
-                slimesContainer.appendChild(card);
+                }
             });
 
         } catch (error) {
