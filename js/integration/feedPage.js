@@ -1,7 +1,7 @@
 // Feed Page Integration
 // fetches the home timeline and displays slimes on feed.html
 // import createSlime() to generate DOM elements
-import { createSlime } from "../slime.js";
+import { createSlime } from "../CreateSlime.js";
 
 // Fetch the home timeline from the provided JSON.
 async function loadHomeTimeline() {

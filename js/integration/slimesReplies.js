@@ -1,5 +1,5 @@
 // Show the users limes in the slimes tab in their profile
-import { createSlime } from "../slime.js";
+import { createSlime } from "../CreateSlime.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const slimesContainer = document.getElementById("replies");

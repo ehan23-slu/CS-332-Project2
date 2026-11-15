@@ -2,7 +2,7 @@
 // fetches a specific slime and its replies for slime.html
 // integrate shared slime-related functions
 // Load the required slime trail and use the shared renderer for every post.
-import { createSlime } from "../slime.js";
+import { createSlime } from "../CreateSlime.js";
 
 const SLIME_ID = "611fcaf640148d94e2a469c7";
 
