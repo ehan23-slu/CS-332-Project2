@@ -1,6 +1,6 @@
 // Render users favorite slimes in the favorites tab
 
-import { createSlime } from "../slime.js";
+import { createSlime } from "../CreateSlime.js";
 
 // function to showfavorite slimes
 document.addEventListener("DOMContentLoaded", () => {
