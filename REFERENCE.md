@@ -1,0 +1,3 @@
+## References / Ai Usage
+
+- *AI Usage ChatGPT Prompt*: Used ChatGPT to clarify project requirements and understand the structure and purpose of the provided JSON files. Asked for explanations of JavaScript concepts to review, including fetch(), async/await, forEach(), DOM manipulation, and JavaScript modules. Also used ChatGPT to troubleshoot errors, review and improve code, organize comments and HTML formatting (indentation), understand Bootstrap styling and responsive layouts, and learn Git commands for branching, committing, pushing, and merging. ChatGPT also assisted with implementing and refining the Notifications page, including creating reusable notification cards, displaying profile images and icons, and linking user profiles.
