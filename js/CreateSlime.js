@@ -1,3 +1,4 @@
+
 const TRAIL_SLIME_ID = "611fcaf640148d94e2a469c7";
 
 function createAuthorLink(user) {
@@ -42,8 +43,8 @@ export function createSlime(slimeData) {
     }
 
     const header = document.createElement("header");
-    header.className = "d-flex align-items-center gap-2 mb-2";
-
+    header.className = "d-flex align-items-start gap-2 mb-2";
+    
     const avatar = document.createElement("img");
     avatar.className = "img-thumbnail rounded-2 flex-shrink-0 object-fit-cover";
     // Resolve from js/slime.js so assets work with root or skeleton HTML.
@@ -59,38 +60,79 @@ export function createSlime(slimeData) {
 
     const postedAt = new Date(slime.created_at);
     const time = document.createElement("time");
-    time.className = "d-block small text-body-secondary";
+    time.className = "text-body-secondary";
     time.dateTime = postedAt.toISOString();
-    time.textContent = postedAt.toLocaleDateString();
-    author.append(time);
-    header.append(avatar, author);
+    time.textContent = postedAt.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric"
+        });
+    author.append(" · ", time);
 
     const message = document.createElement("p");
-    message.className = "card-text text-break";
+    message.className = "card-text text-break mt-1 mb-0";
     message.textContent = slime.text;
 
+    author.append(message);
+    header.append(avatar, author);
+
     const stats = document.createElement("footer");
-    stats.className = "d-flex flex-wrap gap-3 small text-body-secondary";
+    stats.className =
+        "d-flex justify-content-between align-items-center mt-3 text-body-secondary";
 
-    let replyLabel = slime.reply_count + " replies";
-    if (slime.reply_count === 1) {
-        replyLabel = "1 reply";
-    }
-
+    // Reply
     let replies = document.createElement("span");
+
     if (slime.id_str === TRAIL_SLIME_ID) {
         replies = document.createElement("a");
         replies.href = "./slime.html";
     }
-    replies.textContent = replyLabel;
+
+    replies.className =
+        "d-inline-flex align-items-center gap-2 text-decoration-none";
+
+    const replyIcon = document.createElement("i");
+    replyIcon.className = "bi bi-chat-right";
+
+    const replyCount = document.createElement("span");
+    replyCount.textContent = slime.reply_count ?? 0;
+
+    replies.append(replyIcon, replyCount);
+
+    // Reslime
     const reslimes = document.createElement("span");
-    reslimes.textContent = `${slime.reslime_count} reslime(s)`;
+    reslimes.className = "d-inline-flex align-items-center gap-2";
 
+    const reslimeIcon = document.createElement("i");
+    reslimeIcon.className = "bi bi-recycle";
+
+    const reslimeCount = document.createElement("span");
+    reslimeCount.textContent = slime.reslime_count ?? 0;
+
+    reslimes.append(reslimeIcon, reslimeCount);
+
+    // Favorite
     const favorites = document.createElement("span");
-    favorites.textContent = `${slime.favorite_count} favorite(s)`;
+    favorites.className = "d-inline-flex align-items-center gap-2";
 
-    stats.append(replies, reslimes, favorites);
+    const favoriteIcon = document.createElement("i");
+    favoriteIcon.className = "bi bi-heart";
 
-    body.append(header, message, stats);
+    const favoriteCount = document.createElement("span");
+    favoriteCount.textContent = slime.favorite_count ?? 0;
+
+    favorites.append(favoriteIcon, favoriteCount);
+
+    // Share
+    const share = document.createElement("span");
+    share.className = "d-inline-flex align-items-center";
+
+    const shareIcon = document.createElement("i");
+    shareIcon.className = "bi bi-upload";
+
+    share.append(shareIcon);
+
+    stats.append(replies, reslimes, favorites, share);
+
+    body.append(header, stats);
     return card;
 }
