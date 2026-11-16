@@ -1,44 +1,26 @@
-// fetches the home timeline and displays slimes on feed.html
-// import createSlime() to generate DOM elements
-import { createSlime } from "../CreateSlime.js";
+// fetches activity data and displays notifications on notifications.html
 
-// Fetch the home timeline from the provided JSON.
-async function loadHomeTimeline() {
-    const response = await fetch(
-        "../api/statuses/home_timeline.json"
-    );
+import { createNotificationCard } from "../CreateNotificationCard.js";
+
+async function loadNotification() {
+    // await the fetch response
+    const response = await fetch("../api/statuses/activity.json");
 
     if (!response.ok) {
-        throw new Error("Failed to load the home timeline.");
+        throw new Error("Failed to load notifications");
     }
 
-    return await response.json();
+    // await the parsing of the JSON data
+    const activities = await response.json();
+
+    // find the notifications container in HTML
+    const container = document.getElementById("notifications");
+
+    // create and display each notification card
+    activities.forEach(activity => {
+        const card = createNotificationCard(activity);
+        container.appendChild(card);
+    });
 }
 
-// Build and display a card for each slime.
-async function renderFeed() {
-    const container = document.getElementById("feed");
-
-    if (!container) {
-        console.error('Add an element with id="feed" to feed.html.');
-        return;
-    }
-
-    container.textContent = "Loading slimes...";
-
-    try {
-        const slimes = await loadHomeTimeline();
-        const posts = document.createDocumentFragment();
-
-        slimes.forEach(function(slime) {
-            posts.appendChild(createSlime(slime));
-        });
-
-        container.replaceChildren(posts);
-    } catch (error) {
-        console.error(error);
-        container.textContent = "Could not load the feed. Please reload.";
-    }
-}
-
-renderFeed();
+loadNotification();
