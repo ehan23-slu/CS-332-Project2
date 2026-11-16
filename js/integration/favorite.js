@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function loadFavorites() {
         try {
             //await the fetch response
-            const response = await fetch(`../../starter-code/api/favorites/${username}.json`);
+            const response = await fetch(`../api/favorites/${username}.json`);
             if (!response.ok) {
                 throw new Error(`Network response was not ok for ${username}.json`);
             }
@@ -22,6 +22,24 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json();
 
             favoritesContainer.innerHTML = "";
+
+            // when the user has no favorites
+            if (data.length === 0) {
+                const userRes = await fetch(`../api/user/get/${username}.json`);
+
+                if (!userRes.ok) {
+                    throw new Error(`Failed to load user: ${username}`);
+                }
+
+                const user = await userRes.json();
+
+                const message = document.createElement("p");
+                message.className = "text-center text-body-secondary mt-4";
+                message.textContent = `${user.name} does not have any Favorites`;
+
+                favoritesContainer.appendChild(message);
+                return;
+            }
 
             data.forEach(slime => {
                 // Call the imported function which returns a complete HTMLElement
