@@ -1,26 +1,40 @@
-// fetches activity data and displays notifications on notifications.html
 
-import { createNotificationCard } from "../CreateNotificationCard.js";
+// Fetches slime data and displays posts on feed.html
 
-async function loadNotification() {
-    // await the fetch response
-    const response = await fetch("../api/statuses/activity.json");
+import { createSlime } from "../CreateSlime.js";
 
-    if (!response.ok) {
-        throw new Error("Failed to load notifications");
+async function loadFeed() {
+    try {
+        // Fetch slime data
+        const response = await fetch("../api/statuses/home_timeline.json");
+
+        if (!response.ok) {
+            throw new Error("Failed to load feed");
+        }
+
+        // Parse JSON data
+        const slimes = await response.json();
+
+        // Find the feed container in HTML
+        const container = document.getElementById("feed");
+
+        if (!container) {
+            console.error("Feed container not found");
+            return;
+        }
+
+        // Clear existing content
+        container.replaceChildren();
+
+        // Create and display each slime card
+        slimes.forEach(slime => {
+            const card = createSlime(slime);
+            container.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error("Error loading feed:", error);
     }
-
-    // await the parsing of the JSON data
-    const activities = await response.json();
-
-    // find the notifications container in HTML
-    const container = document.getElementById("notifications");
-
-    // create and display each notification card
-    activities.forEach(activity => {
-        const card = createNotificationCard(activity);
-        container.appendChild(card);
-    });
 }
 
-loadNotification();
+loadFeed();
