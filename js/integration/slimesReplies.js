@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // get the profile forom the url
     const urlParams = new URLSearchParams(window.location.search);
-    const username = urlParams.get("user") || "ed";
+    const username = urlParams.get("user") || "kevinaangstadt";
 
     async function loadSlimes() {
         try {
